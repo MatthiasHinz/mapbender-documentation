@@ -13,13 +13,6 @@ Im generischen HTML stehen folgende Variablen zur Verfügung : "application" (En
 Configuration
 =============
 
-Einfügen eines Bildes in Ihre Anwendung:
-
-.. code-block:: yaml
-
-    <img src='http://mapbender.org/sites/default/files/OSGeo_project.png' height='60px'>
-
-
 .. image:: ../../../figures/de/html.png
      :scale: 80
 
@@ -30,7 +23,8 @@ Einfügen eines Bildes in Ihre Anwendung:
 Konfigurationsbeispiele
 =======================
 
-Logo mit hinterlegtem Link einbinden:
+
+Logo mit hinterlegtem Link einbinden
 -------------------------------------
 
 Über ein HTML-Element können verschiedene zusätzliche Elemente eingebunden werden. Beispielsweise kann ein Bild oder Logo integriert werden. Aber auch ein einfaches Textelement, oder ein Text- bzw. Bildelement, welches mit einem Link zu einer Webseite hinterlegt ist. Das HTML-Element kann an unterschiedlichen Stellen in der Anwendung eingebunden werden.
@@ -47,11 +41,12 @@ Es erscheint der Dialog "Element hinzufügen – HTML". Für dieses Konfiguratio
      
 Das HTML-Element, welches hier eingebunden wird hat die Bezeichnung (Title) Mapbender Logo. Im Content wird das gewünschte Element als HTML-Code angegeben und bei Classes wurde die Default-Einstellung html-element-inline übernommen. Der Code für das Anwendungsbeispiel lautet:
 
-.. code-block:: yaml
+.. code-block:: html
 
      <a href='http://mapbender.org' target='_blank'> 
-     <img src='https://mapbender.org/sites/default/files/mapbender-logo_webside.png'  
-     height='60px' style='background-color:rgb(255, 255, 255, 0.9); padding:10px'> </a>
+        <img src='https://mapbender.org/sites/default/files/mapbender-logo_webside.png'  
+     height='60px' style='background-color:rgb(255, 255, 255, 0.9); padding:10px'> 
+     </a>
 
 Das Mapbender Logo wird als Bild eingebunden (img src='https://mapbender.org/sites/default/files/mapbender-logo_webside.png'). Zusätzlich wird für das Bild die Höhe (height=‘60px‘) und das Styling definiert. Das Styling (style=) beinhaltet die Hintergrundfarbe und Transparenz (background-color:rgb(255, 255, 255, 0.9)) sowie den Abstand des Bildes zu den Seitenrändern (padding:10px). Außerdem wurde ein Link zur Mapbender Webseite hinterlegt (href='http://mapbender.org'), welche sich beim klicken auf das Bild in einem neuen Tab öffnet (target='_blank').
 
@@ -69,12 +64,27 @@ Und im Footer:
 
 .. image:: ../../../figures/de/html_example_footer.png
      :scale: 80
-     
-     
-Logo mit hinterlegtem Link einbinden:
--------------------------------------
 
-Im Mapbender besteht die Möglichkeit Variablen in Anwendungen zu verwenden. Als Beispiel wird gezeigt, wie der Titel der Anwendung und des Elements mithilfe eines HTML-Elements eingebunden werden kann.
+
+**Einfügen eines Bildes**
+
+.. code-block:: html
+
+   <img src='http://mapbender.org/sites/default/files/OSGeo_project.png'>
+
+
+**Einfügen eines Links**
+
+.. code-block:: html
+
+  <a href='http://mapbender.org' target='_blank'>Go to the Mapbender Website</a>
+
+
+
+Dynamische Variablen verwenden
+-------------------------------
+
+Im Mapbender besteht die Möglichkeit Variablen in Anwendungen zu verwenden.
 
 **Die Variable "application.title"**
 
@@ -91,9 +101,13 @@ Zuerst muss ein HTML-Element, wie vorher beschrieben über das ``+`` -Zeichen, h
 
 In diesem Beispiel ist die Bezeichnung (Title) des HTML-Elements "Titel". Im Content wurde folgender Code verwendet:
 
-.. code-block:: yaml
+.. code-block:: html
 
-     <b><span style="font-size:25px;color:#b6dd18;margin-right:50vw"> Anwendung {{  application.title }} </span></b>
+     <b>
+        <span style="font-size:25px;color:#b6dd18;margin-right:50vw"> 
+            Anwendung {{  application.title }} 
+        </span>
+     </b>
 
 
 Der Titel der Anwendung wurde mit dem Textzusatz "Anwendung" eingebunden. Dieser Zusatz ist unabhängig vom Titel der Anwendung und wird vor diesen gesetzt (D.h.: Anwendung + Titel der Anwendung). Durch den Style-Block (style=) wurden die Schriftgröße (font-size:25px), die Schriftfarbe (color:#b6dd18) und die Position (margin-right:50vw) des Titels angepasst. Außerdem wird der Titel fett (<b></b>) angezeigt. Die Variable für den Anwendungstitel wird durch diesen Ausdruck eingebunden: *{{ application.title }}*
@@ -119,6 +133,32 @@ Dieses Element sieht in der Anwendung wie folgt aus:
 .. image:: ../../../figures/de/html_example_entity.title.png
      :scale: 80
 
+**Allgemeine Informationen**
+
+Mit dem folgenden Konfigurationsbeispiel werden allgemeine Informationen zu der Anwendung und der eingeloggte Benutzer übergeben. Da hier relativ viel Textinhalt visualisiert werden muss, sollte das Element in die Seitenleiste eingebunden werden. 
+
+.. code-block:: html
+
+    <h2>Informationen</h1>
+    <br>
+    <p>
+        <b>Angemeldet als:</b> {{ app.user.username |trans }} <br>
+        <b>In Gruppe:</b><i>???</i><br>
+    </p>
+    <br>
+    <p>
+        <b>Anwendungstitel:</b> {{ application.title |trans }} ({{ application.slug |trans }}) <br>
+        <b>Anwendungs-Nr.:</b> {{ application.id |trans }} <br>
+        <b>Anwendungsbeschreibung:</b> {{ application.description |trans }} <br>
+        <b>Anwendungsvorlage:</b>???<br>
+        <b>Zuletzt geupdated:</b>???<br>
+    </p>
+
+
+.. image:: ../../../figures/de/html_info_de.png
+     :scale: 80
+
+
 YAML-Definition:
 ----------------
 
@@ -140,20 +180,3 @@ HTTP Callbacks
 ==============
 
 None.
-
-Beispiele
-==================
-
-Einfügen eines Bildes
-
-.. code-block:: yaml
-
-   <img src='http://mapbender.org/sites/default/files/OSGeo_project.png'>
-
-
-Einfügen eines Links
-
-.. code-block:: yaml
-
-  <a href='http://mapbender.org' target='_blank'>Go to the Mapbender Website</a>
-
